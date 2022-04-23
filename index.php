@@ -1,6 +1,5 @@
 <?php
-
-require_once "app/App.php";
+require "vendor/autoload.php";
 use app\App;
 
 $app=new App();

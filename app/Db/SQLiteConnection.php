@@ -1,6 +1,10 @@
 <?php
 namespace app;
 
+use app\Config;
+use http\Exception;
+use PDO;
+
 class SQLiteConnection extends DbConnection
 {
     public function __construct(AuthenticationService $auth,$username, $password)
@@ -18,21 +22,29 @@ class SQLiteConnection extends DbConnection
             $this->conn->exec("CREATE TABLE IF NOT EXISTS documents (
                         ID   INTEGER PRIMARY KEY,
                         Name VARCHAR(50) NOT NULL,
-                        DateCreated Date NOT NULL,
-                        Status TEXT,
-                        DateLast TIMESTAMP
+                        DateCreated TEXT NOT NULL,
+                        Event TEXT,
+                        DateLast TEXT 
                       )");
 
-            $this->conn->exec("CREATE TABLE IF NOT EXISTS status (
+            $this->conn->exec("CREATE TABLE IF NOT EXISTS statuses (
                     ID INTEGER PRIMARY KEY,
-                    Status TEXT,
-                    DateLast TIMESTAMP,
-                    docID VARCHAR (255),
-                    FOREIGN KEY (project_id)
-                    REFERENCES projects(project_id) ON DELETE CASCADE)");
-            echo "created success";
+                    Event VARCHAR(50) NOT NULL,
+                    Date TEXT NOT NULL,
+                    docID INTEGER,
+                    FOREIGN KEY (docID)
+                    REFERENCES documents(docID) ON DELETE CASCADE)");
         }catch (\Exception $e){
-            echo $e;
+            die($e);
+        }
+    }
+    public function printTables(){
+        $sql = "SELECT  `name` FROM sqlite_master WHERE `type`='table'  ORDER BY name";
+        $result = $this->conn->query($sql);
+        if($result){
+            while($row = $result->fetch(PDO::FETCH_ASSOC)){
+                echo '<li>'.$row['name'].'</li>';
+            }
         }
     }
 
