@@ -1,5 +1,5 @@
 <?php
-namespace app;
+namespace app\Orders;
 class OrderManager
 {
     /**

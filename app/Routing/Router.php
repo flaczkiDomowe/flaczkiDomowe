@@ -1,21 +1,19 @@
 <?php
-namespace app;
+namespace app\Routing;
 
-use Exception;
+
+
+use Toro;
 
 class Router
 {
-    private $routesWithControllers=[];
 
-    public function matchRoute():string{
-        $pathArray=explode("/",$_SERVER["REQUEST_URI"]);
-        $route="";
-        if(sizeof($pathArray)>2){
-            $route=$pathArray[2];
-        } else {
-            $route="index";
-        }
-        return $route;
+    public function start(){
+        Toro::serve(array(
+            "/" => "MainHandler",
+            "/order/:number" => "app/OrderHandler",
+            "/event/:number" => "app/EventHandler",
+        ));
     }
 
 

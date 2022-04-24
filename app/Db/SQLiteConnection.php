@@ -1,8 +1,6 @@
 <?php
-namespace app;
-
-use app\Config;
-use http\Exception;
+namespace app\Orders\Handlers\Model\Db;
+use app\Orders\Handlers\Model\Authentication\Orders\Handlers\Model\Utilities\Utilities\Orders\Orders\Mappers\Orders\Mappers\Orders\Handlers\Orders\Handlers\Orders\Handlers\Orders\DomainObjects\Orders\DomainObjects\Orders\Collections\Orders\Collections\Model\Model\Model\Model\Handlers\Handlers\Db\Db\Authentication\Routing\Config;
 use PDO;
 
 class SQLiteConnection extends DbConnection

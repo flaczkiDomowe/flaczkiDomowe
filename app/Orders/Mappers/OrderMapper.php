@@ -1,9 +1,7 @@
 <?php
-namespace app;
+namespace app\Orders\Mappers;
 use DateTimeImmutable;
-use http\Exception;
 use InvalidArgumentException;
-use Iterator;
 
 class OrderMapper extends AbstractMapper
 {

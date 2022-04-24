@@ -1,23 +1,23 @@
 <?php
 
-namespace app;
+namespace app\Orders\Handlers;
 
 
 use Exception;
 
-class OrderRestfulController extends AbstractRestfulController
+class OrderHandler extends AbstractRestfulHandler
 {
     /**
      * @var OrderManager
      */
     private $manager;
 
-    public function __construct(OrderManager $manager)
+    public function __construct()
     {
-        $this->manager = $manager;
+        $this->manager=ManagerFactory::get(OrderManager::class);
     }
 
-    public function create()
+    public function post()
     {
         if (!empty($_POST['name'])) {
             $name = $_POST['name'];
@@ -37,7 +37,7 @@ class OrderRestfulController extends AbstractRestfulController
         }
     }
 
-    public function read()
+    public function get($id)
     {
         header("Content-Type: application/json");
         if (empty($_GET['id']))
@@ -64,7 +64,7 @@ class OrderRestfulController extends AbstractRestfulController
 
         }
 
-    public function update()
+    public function put()
     {
         $fields=$_GET;
             try {
@@ -76,7 +76,7 @@ class OrderRestfulController extends AbstractRestfulController
             }
     }
 
-    public function delete()
+    public function delete($id)
     {
         if (!empty($_GET['id'])) {
             $id = $_GET['id'];

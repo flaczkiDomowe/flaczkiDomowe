@@ -1,10 +1,13 @@
 {
-  "autoload": {
-    "classmap": ["app"]
+  "autoload":{
+    "psr-4":{
+      "app\\":"app"
+    }
   },
   "require": {
     "ext-pdo": "*",
     "ext-json": "*",
-    "ext-ctype": "*"
+    "ext-ctype": "*",
+    "torophp/torophp": "dev-master"
   }
 }

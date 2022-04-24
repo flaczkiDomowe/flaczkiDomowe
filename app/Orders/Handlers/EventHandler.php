@@ -1,8 +1,8 @@
 <?php
 
-namespace app;
+namespace app\Orders\Handlers;
 
-class EventsRestfulController extends AbstractRestfulController
+class EventHandler extends AbstractRestfulHandler
 {
 
     /**

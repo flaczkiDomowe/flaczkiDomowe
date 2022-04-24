@@ -1,6 +1,6 @@
 <?php
-namespace app;
-class MainController
+namespace app\Orders\Handlers;
+class MainHandler
 {
     public function indexAction(){
         echo "Welcome to ibiza";

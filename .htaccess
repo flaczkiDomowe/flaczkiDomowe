@@ -1,4 +1,9 @@
 RewriteEngine on
+
+RewriteBase /simple-project
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /simple-project/index.php?path=$1 [NC,L,QSA]
+
+RewriteCond $1 !^(index.php)
+RewriteRule .* index.php/$0 [L]

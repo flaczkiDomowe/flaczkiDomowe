@@ -1,8 +1,7 @@
 <?php
-namespace app;
+namespace app\Orders\Handlers\Model;
 use Exception;
 use InvalidArgumentException;
-use Iterator;
 
 abstract class AbstractMapper
 {

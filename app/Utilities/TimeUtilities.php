@@ -1,5 +1,5 @@
 <?php
-namespace app;
+namespace app\Utilities;
 class TimeUtilities
 {
 
