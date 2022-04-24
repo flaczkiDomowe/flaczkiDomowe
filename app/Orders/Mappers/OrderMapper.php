@@ -35,7 +35,7 @@ class OrderMapper extends AbstractMapper
         return $collection;
     }
 
-    public function createObject(array $fields): AbstractDomainObject
+    protected function doCreateObject(array $fields): AbstractDomainObject
     {
         $order=new Order();
         $filteredNullsFields=array_filter($fields);
@@ -96,5 +96,11 @@ class OrderMapper extends AbstractMapper
         $sql="UPDATE $tableName SET Name=?,DateCreated=?,Status=?,DateLast=? WHERE ID=?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$name, $dateCreated,$status,$dateLast,$id]);
+    }
+
+    //todo:: dodać walidację pól
+    protected function validateFields(array $fields)
+    {
+       return;
     }
 }

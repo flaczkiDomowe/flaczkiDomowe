@@ -1,30 +1,27 @@
 <?php
+
 namespace app;
 
-
-class OrderRestfulController extends AbstractRestfulController
+class EventsRestfulController extends AbstractRestfulController
 {
+
     /**
      * @var OrderManager
      */
     private $manager;
+
     public function __construct(OrderManager $manager)
     {
         $this->manager=$manager;
     }
-
     public function create()
     {
-        $id=$this->manager->addSingleOrder("GIRAFFE");
-        $order=$this->manager->getSingleOrder($id);
-        $statusy=["dodano","przerobiono","zakonczono"];
-        $this->manager->addSomeEvents($order->getId(),$statusy);
-        echo json_encode($this->manager->serializeOrder($order));
+        // TODO: Implement create() method.
     }
 
     public function read()
     {
-        echo "I am reading";
+        // TODO: Implement read() method.
     }
 
     public function update()

@@ -50,7 +50,7 @@ class EventMapper extends AbstractMapper
     }
 
 
-    public function createObject(array $fields): AbstractDomainObject
+    protected function doCreateObject(array $fields): AbstractDomainObject
     {
         $status=new Event();
         $filteredNullsFields=array_filter($fields);
@@ -107,5 +107,9 @@ class EventMapper extends AbstractMapper
         $stmt->execute([$status, $date,$docId,$id]);
     }
 
-
+    //todo:: dodać walidację pól
+    protected function validateFields(array $fields)
+    {
+       return;
+    }
 }
