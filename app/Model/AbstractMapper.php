@@ -19,11 +19,12 @@ abstract class AbstractMapper
 
     abstract public function findByID(int $id):AbstractDomainObject;
     abstract public function findAll(string $condition,array $arguments):GenCollection;
-    public function createObject(array $fields):AbstractDomainObject{
+    public function createObject(array $fields,bool $update=false):AbstractDomainObject{
         $this->validate($fields);
-        return $this->doCreateObject($fields);
+        return $this->doCreateObject($fields, $update);
     }
-    abstract protected function doCreateObject(array $fields):AbstractDomainObject;
+    abstract public function exists(int $id):bool;
+    abstract protected function doCreateObject(array $fields,bool $update):AbstractDomainObject;
     abstract protected function validateFields(array $fields);
     protected function validate(array $fields){
         $this->validateID($fields);
@@ -66,6 +67,11 @@ abstract class AbstractMapper
     }
     abstract protected function doInsert($obj):int;
     abstract protected function doUpdate($obj);
-
-
+    public function delete($id)
+    {
+        $tableName=$this::TABLENAME;
+        $sql="DELETE FROM $tableName WHERE ID=?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+    }
 }

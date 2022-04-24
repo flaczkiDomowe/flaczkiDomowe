@@ -21,7 +21,7 @@ class SQLiteConnection extends DbConnection
         try {
             $this->conn->exec("CREATE TABLE IF NOT EXISTS documents (
                         ID   INTEGER PRIMARY KEY,
-                        Name VARCHAR(50) NOT NULL,
+                        Name TEXT NOT NULL,
                         DateCreated TEXT NOT NULL,
                         Event TEXT,
                         DateLast TEXT 
@@ -29,7 +29,7 @@ class SQLiteConnection extends DbConnection
 
             $this->conn->exec("CREATE TABLE IF NOT EXISTS statuses (
                     ID INTEGER PRIMARY KEY,
-                    Event VARCHAR(50) NOT NULL,
+                    Event TEXT NOT NULL,
                     Date TEXT NOT NULL,
                     docID INTEGER,
                     FOREIGN KEY (docID)

@@ -22,7 +22,8 @@ class RouterBoss
     public function delegateToMethod()
     {
         $route=$this->router->matchRoute();
-        $controller=ControllerFactory::get($route);
+        $deleteQuery=explode("?",$route)[0];
+        $controller=ControllerFactory::get($deleteQuery);
         if(is_subclass_of($controller,AbstractRestfulController::class)){
             $method=$this->restDelegation();
             $controller->$method();

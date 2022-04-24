@@ -1,6 +1,7 @@
 <?php
 namespace app;
 use DateTimeImmutable;
+use InvalidArgumentException;
 use Iterator;
 use Traversable;
 
@@ -50,9 +51,18 @@ class EventMapper extends AbstractMapper
     }
 
 
-    protected function doCreateObject(array $fields): AbstractDomainObject
+    protected function doCreateObject(array $fields,bool $update): AbstractDomainObject
     {
-        $status=new Event();
+        if($update) {
+            $fields = array_change_key_case($fields);
+            if (array_key_exists("id", $fields)) {
+                $status = $this->findByID($fields["id"]);
+            } else {
+                throw new InvalidArgumentException();
+            }
+        } else {
+            $status = new Event();
+        }
         $filteredNullsFields=array_filter($fields);
         foreach($filteredNullsFields as $key=>$val){
             switch(strtoupper($key)){
@@ -111,5 +121,15 @@ class EventMapper extends AbstractMapper
     protected function validateFields(array $fields)
     {
        return;
+    }
+
+    public function exists(int $id): bool
+    {
+        $tableName=self::TABLENAME;
+        $sql="SELECT COUNT(1) as count FROM $tableName WHERE ID = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+        $row=$stmt->fetch($this->conn::FETCH_ASSOC);
+        return $row['count']===1;
     }
 }

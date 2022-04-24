@@ -9,8 +9,6 @@ abstract class GenCollection
     protected $mapper;
     protected $total = 0;
     protected $raw = [];
-    private $result;
-    private $pointer = 0;
     private $objects = [];
 
     public function __construct(array $raw = [], AbstractMapper $mapper = null)

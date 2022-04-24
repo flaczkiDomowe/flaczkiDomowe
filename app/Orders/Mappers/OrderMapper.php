@@ -1,11 +1,15 @@
 <?php
 namespace app;
 use DateTimeImmutable;
+use http\Exception;
+use InvalidArgumentException;
 use Iterator;
 
 class OrderMapper extends AbstractMapper
 {
     const TABLENAME="documents";
+    const validFields=["NAME","DATECREATED","STATUS","DATELAST"];
+
 
     public function __construct(DbConnection $conn)
     {
@@ -23,10 +27,19 @@ class OrderMapper extends AbstractMapper
         return $order;
     }
 
+    public function exists(int $id):bool{
+        $tableName=self::TABLENAME;
+        $sql="SELECT COUNT(1) as count FROM $tableName WHERE ID = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+        $row=$stmt->fetch($this->conn::FETCH_ASSOC);
+        return intval($row['count'])===1;
+    }
+
     public function findAll(string $condition,array $arguments):GenCollection
     {
         $tableName=self::TABLENAME;
-        $sql="SELECT ID,Name,DateCreated,Event,DateLast FROM $tableName ";
+        $sql="SELECT ID,Name,DateCreated,Status,DateLast FROM $tableName ";
         $sql.=$condition;
         $stmt = $this->conn->prepare($sql);
         $stmt->execute($arguments);
@@ -35,10 +48,19 @@ class OrderMapper extends AbstractMapper
         return $collection;
     }
 
-    protected function doCreateObject(array $fields): AbstractDomainObject
+    protected function doCreateObject(array $fields,bool $update): AbstractDomainObject
     {
-        $order=new Order();
-        $filteredNullsFields=array_filter($fields);
+        if($update) {
+            $fields = array_change_key_case($fields);
+            if (array_key_exists("id", $fields)) {
+                $order = $this->findByID($fields["id"]);
+            } else {
+                throw new InvalidArgumentException();
+            }
+        } else {
+                $order = new Order();
+            }
+            $filteredNullsFields=array_filter($fields);
         foreach($filteredNullsFields as $key=>$val){
             switch(strtoupper($key)){
                case "ID":
@@ -103,4 +125,5 @@ class OrderMapper extends AbstractMapper
     {
        return;
     }
+
 }
