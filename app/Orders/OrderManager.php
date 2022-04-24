@@ -1,5 +1,6 @@
 <?php
-namespace app\Orders;
+
+
 class OrderManager
 {
     /**
@@ -51,10 +52,11 @@ class OrderManager
 
     public function getManyOrdersWithHistory(array $userConditions){
         $orders=$this->getManyOrders($userConditions);
-        foreach ($orders->getGenerator() as &$order){
-            $order=$this->eventMapper->findOrderEvents($order);
+        $ordersWithHistory=new OrderGenCollection();
+        foreach ($orders->getGenerator() as $order){
+           $ordersWithHistory->add($this->eventMapper->findOrderEvents($order));
         }
-        return $orders;
+        return $ordersWithHistory;
     }
 
     private function generateCondition(array $conditions){
@@ -88,6 +90,44 @@ class OrderManager
     {
         $order=$this->orderMapper->createObject($fields,true);
         $this->orderMapper->update($order);
+    }
+
+    public function addSingleEvent(array $arr):int
+    {
+        if($this->orderMapper->exists($arr["docID"])){
+            $ev=$this->eventMapper->createObject($arr);
+           $id= $this->eventMapper->insert($ev);
+        } else {
+            throw new InvalidArgumentException();
+        }
+        return $id;
+    }
+
+    public function getSingeEvent(int $id):Event
+    {
+       return $this->eventMapper->findByID($id);
+    }
+
+    public function getManyEvents(array $userConditions)
+    {
+        $condArr=$this->generateCondition($userConditions);
+        return $this->eventMapper->findAll($condArr[0],$condArr[1]);
+    }
+
+    public function serializeEvent($event)
+    {
+        return $event->serialize();
+    }
+
+    public function updateEvent(array $fields)
+    {
+        $event=$this->eventMapper->createObject($fields,true);
+        $this->eventMapper->update($event);
+    }
+
+    public function deleteEvent($id)
+    {
+        $this->eventMapper->delete($id);
     }
 
 }

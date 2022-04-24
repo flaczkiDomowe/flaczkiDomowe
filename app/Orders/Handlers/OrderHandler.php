@@ -1,9 +1,6 @@
 <?php
 
-namespace app\Orders\Handlers;
 
-
-use Exception;
 
 class OrderHandler extends AbstractRestfulHandler
 {
@@ -37,10 +34,10 @@ class OrderHandler extends AbstractRestfulHandler
         }
     }
 
-    public function get($id)
+    public function get($id=0)
     {
         header("Content-Type: application/json");
-        if (empty($_GET['id']))
+        if (empty($id))
             {
                 if (!empty($_GET['withHistory']) && $_GET['withHistory'] === 'true') {
                     $orders = $this->manager->getManyOrdersWithHistory($_GET)->getGenerator();
@@ -54,9 +51,9 @@ class OrderHandler extends AbstractRestfulHandler
                 http_response_code(200);
                 echo json_encode($serializedOrders);
             } else {
-                if ($this->manager->orderExist($_GET['id'])) {
+                if ($this->manager->orderExist($id)) {
                     http_response_code(200);
-                    echo json_encode($this->manager->serializeOrder($this->manager->getSingleOrder($_GET['id'])));
+                    echo json_encode($this->manager->serializeOrder($this->manager->getSingleOrder($id)));
                 } else {
                     echo json_encode([]);
                 }
@@ -64,9 +61,10 @@ class OrderHandler extends AbstractRestfulHandler
 
         }
 
-    public function put()
+    public function put($id=0)
     {
         $fields=$_GET;
+        $fields["ID"]=$id;
             try {
                 $this->manager->updateOrder($fields);
                 http_response_code(200);
@@ -76,10 +74,9 @@ class OrderHandler extends AbstractRestfulHandler
             }
     }
 
-    public function delete($id)
+    public function delete($id=0)
     {
-        if (!empty($_GET['id'])) {
-            $id = $_GET['id'];
+        if (!empty($id)) {
             try {
                 $this->manager->deleteOrder($id);
                 http_response_code(200);

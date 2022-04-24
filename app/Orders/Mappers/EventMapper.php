@@ -1,7 +1,5 @@
 <?php
-namespace app\Orders\Mappers;
-use DateTimeImmutable;
-use InvalidArgumentException;
+
 
 
 class EventMapper extends AbstractMapper
@@ -127,6 +125,6 @@ class EventMapper extends AbstractMapper
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
         $row=$stmt->fetch($this->conn::FETCH_ASSOC);
-        return $row['count']===1;
+        return intval($row['count'])===1;
     }
 }

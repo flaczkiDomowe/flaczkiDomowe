@@ -1,7 +1,6 @@
 <?php
 
-namespace app\Orders\Handlers\Model\Db;
-use PDO;
+
 
 class DbConnection
 {

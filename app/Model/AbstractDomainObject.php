@@ -1,6 +1,4 @@
 <?php
-namespace app\Orders\Handlers\Model;
-use Serializable;
 
 abstract class AbstractDomainObject implements Serializable
 {

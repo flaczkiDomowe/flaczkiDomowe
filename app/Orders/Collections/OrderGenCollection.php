@@ -1,6 +1,5 @@
 <?php
 
-namespace app\Orders\Handlers\Orders\Collections;
 
 class OrderGenCollection extends GenCollection
 {

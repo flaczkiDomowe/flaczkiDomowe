@@ -1,7 +1,4 @@
 <?php
-namespace app\Orders\Handlers\Orders\DomainObjects;
-use app\Orders\Handlers\Model\AbstractDomainObject;
-use DateTimeImmutable;
 
 class Order extends AbstractDomainObject
 {
