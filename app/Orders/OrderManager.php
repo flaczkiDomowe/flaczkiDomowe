@@ -95,8 +95,15 @@ class OrderManager
     public function addSingleEvent(array $arr):int
     {
         if($this->orderMapper->exists($arr["docID"])){
+            /** @var Order $order */
+            $order=$this->orderMapper->findByID($arr["docID"]);
             $ev=$this->eventMapper->createObject($arr);
-           $id= $this->eventMapper->insert($ev);
+            $id= $this->eventMapper->insert($ev);
+            /** @var Event $recentlyAddedEvent */
+            $recentlyAddedEvent=$this->eventMapper->findByID($id);
+            $order->setDateLast($recentlyAddedEvent->getDate());
+            $order->setStatus($recentlyAddedEvent->getStatus());
+            $this->orderMapper->insert($order);
         } else {
             throw new InvalidArgumentException();
         }
@@ -114,7 +121,7 @@ class OrderManager
         return $this->eventMapper->findAll($condArr[0],$condArr[1]);
     }
 
-    public function serializeEvent($event)
+    public function serializeEvent($event):array
     {
         return $event->serialize();
     }

@@ -1,7 +1,7 @@
 <?php
 
 
-class TimeUtilities
+class TimeUtilities extends AbstractUtilities
 {
 
 

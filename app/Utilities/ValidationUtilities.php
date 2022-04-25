@@ -2,7 +2,7 @@
 
 
 
-class ValidationUtilities
+class ValidationUtilities extends AbstractUtilities
 {
 
     public static function isInteger($input):bool{

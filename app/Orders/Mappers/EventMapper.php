@@ -112,6 +112,16 @@ class EventMapper extends AbstractMapper
         $stmt->execute([$status, $date,$docId,$id]);
     }
 
+    public function getLastEvent(Order $order){
+        $tableName=self::TABLENAME;
+        $sql="SELECT ID,Status,Date,docID FROM $tableName WHERE DocID=? ORDER BY Date DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$order->getId()]);
+        $row=$stmt->fetch($this->conn::FETCH_ASSOC);
+        $order=$this->createObject($row);
+        return $order;
+    }
+
     //todo:: dodać walidację pól
     protected function validateFields(array $fields)
     {
